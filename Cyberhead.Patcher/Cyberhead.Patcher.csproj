@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Version>1.0.0</Version>
+        <AssemblyName>Cyberhead.Patcher</AssemblyName>
+        <Product>Cyberhead.Patcher</Product>
+        <Authors>NotNite</Authors>
+
+        <TargetFramework>net462</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AssetsTools.NET" Version="3.0.0" />
+        <PackageReference Include="BepInEx.Core" Version="5.*"/>
+        <PackageReference Include="Mono.Cecil" Version="0.11.5"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="classdata.tpk" CopyToOutputDirectory="PreserveNewest"/>
+        <Content Include="../libs/plugins/**/*" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="xcopy /Y /I &quot;$(TargetDir)&quot; &quot;$(BRCPath)/BepInEx/patchers/Cyberhead&quot;" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'"/>
+    </Target>
+</Project>

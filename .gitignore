@@ -1,0 +1,18 @@
+# Build artifacts
+bin/
+obj/
+
+# IDE settings
+.idea/
+.vs/
+.vscode/
+*.user
+
+# Build deployments
+thunderstore/*.md
+thunderstore/BepInEx
+thunderstore/*.zip
+out/
+
+# GitHub Actions
+local/

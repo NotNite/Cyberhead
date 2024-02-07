@@ -1,0 +1,98 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Version>1.0.0</Version>
+        <AssemblyName>Cyberhead</AssemblyName>
+        <Product>Cyberhead</Product>
+        <Authors>NotNite</Authors>
+
+        <TargetFramework>net462</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all"/>
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="BepInEx.Core" Version="5.*"/>
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*"/>
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all"/>
+        <PackageReference Include="System.Text.Json" Version="8.0.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="Assembly-CSharp">
+            <HintPath>$(ManagedPath)/Assembly-CSharp.dll</HintPath>
+            <Private>false</Private>
+            <Publicize>true</Publicize>
+        </Reference>
+        <Reference Include="UnityEngine">
+            <HintPath>$(ManagedPath)/UnityEngine.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>$(ManagedPath)/UnityEngine.CoreModule.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="UnityEngine.SubsystemsModule">
+            <HintPath>$(ManagedPath)/UnityEngine.SubsystemsModule.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AssetBundleModule">
+            <HintPath>$(ManagedPath)/UnityEngine.AssetBundleModule.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AnimationModule">
+            <HintPath>$(ManagedPath)/UnityEngine.AnimationModule.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+            <HintPath>$(ManagedPath)/UnityEngine.InputLegacyModule.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="UnityEngine.JSONSerializeModule">
+            <HintPath>$(ManagedPath)/UnityEngine.JSONSerializeModule.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="UnityEngine.PhysicsModule">
+            <HintPath>$(ManagedPath)/UnityEngine.PhysicsModule.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+
+        <Reference Include="Unity.XR.CoreUtils">
+            <HintPath>../libs/managed/Unity.XR.CoreUtils.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.XR.OpenXR">
+            <HintPath>../libs/managed/Unity.XR.OpenXR.dll</HintPath>
+            <Publicize>true</Publicize>
+        </Reference>
+        <Reference Include="Unity.XR.Management">
+            <HintPath>../libs/managed/Unity.XR.Management.dll</HintPath>
+            <Publicize>true</Publicize>
+        </Reference>
+        <Reference Include="Unity.InputSystem">
+            <HintPath>../libs/managed/Unity.InputSystem.dll</HintPath>
+            <Publicize>true</Publicize>
+        </Reference>
+        <Reference Include="UnityEngine.SpatialTracking">
+            <HintPath>../libs/managed/UnityEngine.SpatialTracking.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.XRModule">
+            <HintPath>../libs/managed/UnityEngine.XRModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.XR.LegacyInputHelpers">
+            <HintPath>../libs/managed/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="xcopy /Y /I &quot;$(TargetDir)&quot; &quot;$(BRCPath)/BepInEx/plugins/Cyberhead&quot;" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'"/>
+    </Target>
+</Project>
