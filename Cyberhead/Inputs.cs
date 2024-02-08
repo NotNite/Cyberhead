@@ -13,7 +13,8 @@ public class Inputs {
     public static InputAction RightContollerJump = null!;
     public static InputAction RightControllerSwitchStyle = null!;
     public static InputAction RightStickTurn = null!;
-    public static InputAction RightTriggerBoost = null!;
+    public static InputAction RightTriggerManual = null!;
+    public static InputAction RightGripBoost = null!;
 
     public static void Init() {
         HMDLook = new InputAction("HMDLook", InputActionType.Value,
@@ -46,8 +47,10 @@ public class Inputs {
         RightStickTurn = new InputAction("RightStickTurn", InputActionType.Value,
                                          "<XRController>{RightHand}/primary2DAxis",
                                          expectedControlType: "Vector2");
-        RightTriggerBoost = new InputAction("RightTriggerBoost", InputActionType.Button,
-                                            "<XRController>{RightHand}/triggerButton");
+        RightTriggerManual = new InputAction("RightTriggerManual", InputActionType.Button,
+                                             "<XRController>{RightHand}/triggerButton");
+        RightGripBoost = new InputAction("RightGripBoost", InputActionType.Button,
+                                         "<XRController>{RightHand}/gripButton");
 
         HMDLook.Enable();
         HMDMove.Enable();
@@ -61,6 +64,7 @@ public class Inputs {
         RightContollerJump.Enable();
         RightControllerSwitchStyle.Enable();
         RightStickTurn.Enable();
-        RightTriggerBoost.Enable();
+        RightTriggerManual.Enable();
+        RightGripBoost.Enable();
     }
 }

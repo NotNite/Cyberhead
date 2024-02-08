@@ -26,9 +26,30 @@ public class Plugin : BaseUnityPlugin {
 
         InputSystem.PerformDefaultPluginInitialization();
 
+        // Stolen from LCVR
+        var valveIndex = ScriptableObject.CreateInstance<ValveIndexControllerProfile>();
+        var hpReverb = ScriptableObject.CreateInstance<HPReverbG2ControllerProfile>();
+        var htcVive = ScriptableObject.CreateInstance<HTCViveControllerProfile>();
+        var mmController = ScriptableObject.CreateInstance<MicrosoftMotionControllerProfile>();
+        var khrSimple = ScriptableObject.CreateInstance<KHRSimpleControllerProfile>();
+        var metaQuestTouch = ScriptableObject.CreateInstance<MetaQuestTouchProControllerProfile>();
         var oculusTouch = ScriptableObject.CreateInstance<OculusTouchControllerProfile>();
+
+        valveIndex.enabled = true;
+        hpReverb.enabled = true;
+        htcVive.enabled = true;
+        mmController.enabled = true;
+        khrSimple.enabled = true;
+        metaQuestTouch.enabled = true;
         oculusTouch.enabled = true;
+
         OpenXRSettings.Instance.features = [
+            valveIndex,
+            hpReverb,
+            htcVive,
+            mmController,
+            khrSimple,
+            metaQuestTouch,
             oculusTouch
         ];
 

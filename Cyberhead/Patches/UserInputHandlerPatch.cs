@@ -16,7 +16,9 @@ public class UserInputHandlerPatch {
         inputBuffer.jumpButtonHeld = Inputs.RightContollerJump.ReadValue<float>() > 0.5f;
         inputBuffer.switchStyleButtonNew = Inputs.RightControllerSwitchStyle.triggered;
         inputBuffer.switchStyleButtonHeld = Inputs.RightControllerSwitchStyle.ReadValue<float>() > 0.5f;
-        inputBuffer.boostButtonNew = Inputs.RightTriggerBoost.triggered;
-        inputBuffer.boostButtonHeld = Inputs.RightTriggerBoost.ReadValue<float>() > 0.5f;
+        inputBuffer.slideButtonNew = Inputs.RightTriggerManual.triggered;
+        inputBuffer.slideButtonHeld = Inputs.RightTriggerManual.ReadValue<float>() > 0.5f;
+        inputBuffer.boostButtonNew = Inputs.RightGripBoost.triggered;
+        inputBuffer.boostButtonHeld = Inputs.RightGripBoost.ReadValue<float>() > 0.5f;
     }
 }

@@ -1,6 +1,29 @@
 # Cyberhead
 
-Bomb Rush Cyberfunk proof of concept VR mod. It "works" in that there's a camera and you can move your arms. That's it. No controller input, no HUD, not even playspace recentering. Don't get your hopes up.
+Bomb Rush Cyberfunk proof of concept VR mod.
+
+## What works
+
+- Looking around
+- Moving around (somewhat)
+  - Teleports, deaths, grinding, etc. are very janky
+- Some controller input
+  - Move around (left stick)
+  - Snap turn (right stick)
+  - Jump (right controller primary)
+  - Switch movestyle (right controller secondary)
+  - Manual/slide (right controller trigger)
+  - Boost (right controller grip)
+- Hand IK (somewhat)
+  - Hands are rotated wrongly
+  - Sometimes they just give up
+
+## What doesn't work
+
+- The HUD
+- The main menu, cutscenes, phone, etc. (anything that isn't normal gameplay)
+  - Use the desktop or [QuickLaunch](https://thunderstore.io/c/bomb-rush-cyberfunk/p/LazyDuchess/QuickLaunch/) to get into game
+- Slop Crew integration
 
 ## Credits
 

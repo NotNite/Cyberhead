@@ -65,6 +65,10 @@
             <HintPath>$(ManagedPath)/UnityEngine.PhysicsModule.dll</HintPath>
             <Private>false</Private>
         </Reference>
+        <Reference Include="UnityEngine.UIModule">
+            <HintPath>$(ManagedPath)/UnityEngine.UIModule.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
 
         <Reference Include="Unity.XR.CoreUtils">
             <HintPath>../libs/managed/Unity.XR.CoreUtils.dll</HintPath>
