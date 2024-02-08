@@ -11,6 +11,8 @@ public static class CharacterVisualPatch {
         CharacterVisual __instance,
         BoostpackEffectMode set, float overrideScale = -1f
     ) {
+        if (!Plugin.CyberheadConfig.General.VrEnabled.Value) return true;
+
         var player = __instance.transform.parent.parent.gameObject;
         var mainPlayer = WorldHandler.instance.GetCurrentPlayer().gameObject;
         if (player == mainPlayer) {

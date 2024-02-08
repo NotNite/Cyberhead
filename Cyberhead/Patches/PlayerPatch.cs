@@ -20,6 +20,7 @@ public class PlayerPatch {
         MoveStyle setMoveStyleEquipped = MoveStyle.ON_FOOT,
         Crew setCrew = Crew.PLAYERS
     ) {
+        if (!Plugin.CyberheadConfig.General.VrEnabled.Value) return;
         if (__instance.isAI) return;
 
         var origin = new GameObject("XROrigin");
@@ -90,15 +91,14 @@ public class PlayerPatch {
     [HarmonyPostfix]
     [HarmonyPatch("FixedUpdatePlayer")]
     public static void FixedUpdatePlayer(Player __instance) {
-        if (!__instance.isAI) {
-            __instance.characterVisual.handIKActiveL = true;
-            __instance.characterVisual.handIKActiveR = true;
-        }
+        __instance.characterVisual.handIKActiveL = __instance.characterVisual.handIKTargetL != null;
+        __instance.characterVisual.handIKActiveR = __instance.characterVisual.handIKTargetR != null;
     }
 
     [HarmonyPostfix]
     [HarmonyPatch("SetCharacter")]
     public static void SetCharacter(Player __instance, Characters setChar, int setOutfit = 0) {
+        if (!Plugin.CyberheadConfig.General.VrEnabled.Value) return;
         if (!__instance.isAI) ApplyIK(__instance);
     }
 

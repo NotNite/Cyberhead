@@ -44,8 +44,9 @@ public class XRCamera : MonoBehaviour {
                 if (posDiff.magnitude >= posThreshold) player.motor.RigidbodyMove(moveToPos);
 
                 var moveToRot = rotation;
-                var rotDiff = player.transform.rotation * Quaternion.Inverse(moveToRot);
-                if (rotDiff.eulerAngles.magnitude >= rotThreshold) player.motor.RigidbodyMoveRotation(moveToRot);
+                moveToRot = Quaternion.Euler(0, moveToRot.eulerAngles.y, 0);
+                var rotDiff = player.transform.rotation.eulerAngles.y - moveToRot.eulerAngles.y;
+                if (rotDiff >= rotThreshold) player.motor.RigidbodyMoveRotation(moveToRot);
             }
 
             // Place the camera onto us so rotation works properly

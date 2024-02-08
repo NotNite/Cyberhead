@@ -80,15 +80,17 @@ public class SlopCrewSupport : IDisposable {
         var handR = playerController.characterVisual.handR;
 
         var ikL = handL.transform.Find("IK");
-        if (ikL is null) {
+        if (ikL == null) {
             ikL = new GameObject("IK").transform;
             ikL.SetParent(handL.transform, false);
+            ikL.gameObject.AddComponent<SlopCrewSynced>();
         }
 
         var ikR = handR.transform.Find("IK");
-        if (ikR is null) {
+        if (ikR == null) {
             ikR = new GameObject("IK").transform;
             ikR.SetParent(handR.transform, false);
+            ikR.gameObject.AddComponent<SlopCrewSynced>();
         }
 
         playerController.characterVisual.handIKActiveL = true;
@@ -96,10 +98,13 @@ public class SlopCrewSupport : IDisposable {
         playerController.characterVisual.handIKTargetL = ikL;
         playerController.characterVisual.handIKTargetR = ikR;
 
-        ikL.position = packet.LeftHandPos;
-        ikL.rotation = packet.LeftHandRot;
-        ikR.position = packet.RightHandPos;
-        ikR.rotation = packet.RightHandRot;
+        var syncedL = ikL.GetComponent<SlopCrewSynced>();
+        syncedL.SyncedPosition = packet.LeftHandPos;
+        syncedL.SyncedRotation = packet.LeftHandRot;
+
+        var syncedR = ikR.GetComponent<SlopCrewSynced>();
+        syncedR.SyncedPosition = packet.RightHandPos;
+        syncedR.SyncedRotation = packet.RightHandRot;
     }
 
     public class VrIkPacket {
@@ -123,7 +128,10 @@ public class SlopCrewSupport : IDisposable {
         }
 
         private static Vector3 ReadVector3(BinaryReader reader) {
-            return new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+            var x = reader.ReadSingle();
+            var y = reader.ReadSingle();
+            var z = reader.ReadSingle();
+            return new Vector3(x, y, z);
         }
 
         private static void WriteVector3(BinaryWriter writer, Vector3 vec) {
@@ -133,7 +141,11 @@ public class SlopCrewSupport : IDisposable {
         }
 
         private static Quaternion ReadQuaternion(BinaryReader reader) {
-            return new Quaternion(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+            var x = reader.ReadSingle();
+            var y = reader.ReadSingle();
+            var z = reader.ReadSingle();
+            var w = reader.ReadSingle();
+            return new Quaternion(x, y, z, w);
         }
 
         private static void WriteQuaternion(BinaryWriter writer, Quaternion quat) {

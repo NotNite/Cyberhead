@@ -26,8 +26,8 @@ public class Plugin : BaseUnityPlugin {
         SlopCrewSupport = new SlopCrewSupport();
 
         // Disabling VR means only Slop Crew support
-        if (!CyberheadConfig.General.VrEnabled.Value) return;
         Harmony.PatchAll();
+        if (!CyberheadConfig.General.VrEnabled.Value) return;
 
         InputSystem.PerformDefaultPluginInitialization();
 

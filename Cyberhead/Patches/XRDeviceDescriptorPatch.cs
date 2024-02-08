@@ -9,6 +9,8 @@ public class XRDeviceDescriptorPatch {
     [HarmonyPostfix]
     [HarmonyPatch("FromJson")]
     public static void FromJson(ref XRDeviceDescriptor __result, string json) {
+        if (!Plugin.CyberheadConfig.General.VrEnabled.Value) return;
+
         try {
             // Try and set inputFeatures because unity is giving up doing it itself I guess
             var obj = JsonSerializer.Deserialize<XRDeviceDescriptor>(json, new JsonSerializerOptions {
