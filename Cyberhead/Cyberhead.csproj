@@ -68,6 +68,7 @@
 
         <Reference Include="Unity.XR.CoreUtils">
             <HintPath>../libs/managed/Unity.XR.CoreUtils.dll</HintPath>
+            <Publicize>true</Publicize>
         </Reference>
         <Reference Include="Unity.XR.OpenXR">
             <HintPath>../libs/managed/Unity.XR.OpenXR.dll</HintPath>
@@ -89,6 +90,12 @@
         </Reference>
         <Reference Include="UnityEngine.XR.LegacyInputHelpers">
             <HintPath>../libs/managed/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.XR.Interaction.Toolkit">
+            <HintPath>../libs/managed/Unity.XR.Interaction.Toolkit.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Burst">
+            <HintPath>../libs/managed/Unity.Burst.dll</HintPath>
         </Reference>
     </ItemGroup>
 

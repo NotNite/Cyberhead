@@ -1,4 +1,5 @@
 ﻿using Reptile;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
@@ -6,7 +7,7 @@ namespace Cyberhead;
 
 public class XRCamera : MonoBehaviour {
     private TrackedPoseDriver trackedPoseDriver = null!;
-    private GameObject origin = null!;
+    private XROrigin origin = null!;
 
     private void Awake() {
         this.trackedPoseDriver = this.gameObject.AddComponent<TrackedPoseDriver>();
@@ -15,7 +16,7 @@ public class XRCamera : MonoBehaviour {
         this.trackedPoseDriver.trackingType = TrackedPoseDriver.TrackingType.RotationAndPosition;
 
         var cameraOffset = this.gameObject.transform.parent;
-        this.origin = cameraOffset.parent.gameObject;
+        this.origin = cameraOffset.parent.gameObject.GetComponent<XROrigin>();
     }
 
     private void Update() {
@@ -35,14 +36,24 @@ public class XRCamera : MonoBehaviour {
                 this.origin.transform.position = playerPos - anchorOffset;
             } else {
                 // Snap the player to us when walking around in playspace
+                const float posThreshold = 0f;
+                const float rotThreshold = 0f;
+
                 var moveToPos = position with {y = player.transform.position.y};
-                player.motor.RigidbodyMove(moveToPos);
-                player.motor.RigidbodyMoveRotation(rotation);
+                var posDiff = player.transform.position - moveToPos;
+                if (posDiff.magnitude > posThreshold) player.motor.RigidbodyMove(moveToPos);
+
+                var moveToRot = rotation;
+                var rotDiff = player.transform.rotation * Quaternion.Inverse(moveToRot);
+                if (rotDiff.eulerAngles.magnitude > rotThreshold) player.motor.RigidbodyMoveRotation(moveToRot);
             }
 
             // Place the camera onto us so rotation works properly
             var cam = player.cam;
             if (cam != null) {
+                this.origin.Camera = cam.cam;
+                cam.cam.nearClipPlane = 0.01f;
+
                 var camTf = cam.transform;
                 camTf.position = position;
                 camTf.rotation = rotation;

@@ -11,6 +11,9 @@ public class Inputs {
     public static InputAction RightControllerMove = null!;
     public static InputAction LeftStickMove = null!;
     public static InputAction RightContollerJump = null!;
+    public static InputAction RightControllerSwitchStyle = null!;
+    public static InputAction RightStickTurn = null!;
+    public static InputAction RightTriggerBoost = null!;
 
     public static void Init() {
         HMDLook = new InputAction("HMDLook", InputActionType.Value,
@@ -19,14 +22,12 @@ public class Inputs {
         HMDMove = new InputAction("HMDMove", InputActionType.Value,
                                   "<XRHMD>/centerEyePosition",
                                   expectedControlType: "Vector3");
-
         LeftControllerRotate = new InputAction("LeftControllerRotate", InputActionType.Value,
                                                "<XRController>{LeftHand}/deviceRotation",
                                                expectedControlType: "Quaternion");
         LeftControllerMove = new InputAction("LeftControllerMove", InputActionType.Value,
                                              "<XRController>{LeftHand}/devicePosition",
                                              expectedControlType: "Vector3");
-
         RightControllerRotate = new InputAction("RightControllerRotate", InputActionType.Value,
                                                 "<XRController>{RightHand}/deviceRotation",
                                                 expectedControlType: "Quaternion");
@@ -40,6 +41,13 @@ public class Inputs {
 
         RightContollerJump = new InputAction("RightContollerJump", InputActionType.Button,
                                              "<XRController>{RightHand}/primaryButton");
+        RightControllerSwitchStyle = new InputAction("RightControllerSwitchStyle", InputActionType.Button,
+                                                     "<XRController>{RightHand}/secondaryButton");
+        RightStickTurn = new InputAction("RightStickTurn", InputActionType.Value,
+                                         "<XRController>{RightHand}/primary2DAxis",
+                                         expectedControlType: "Vector2");
+        RightTriggerBoost = new InputAction("RightTriggerBoost", InputActionType.Button,
+                                            "<XRController>{RightHand}/triggerButton");
 
         HMDLook.Enable();
         HMDMove.Enable();
@@ -47,7 +55,12 @@ public class Inputs {
         LeftControllerMove.Enable();
         RightControllerRotate.Enable();
         RightControllerMove.Enable();
+
         LeftStickMove.Enable();
+
         RightContollerJump.Enable();
+        RightControllerSwitchStyle.Enable();
+        RightStickTurn.Enable();
+        RightTriggerBoost.Enable();
     }
 }
