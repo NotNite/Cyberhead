@@ -79,6 +79,12 @@ public class PlayerPatch {
         snapTurn.enableTurnLeftRight = true;
         snapTurn.enableTurnAround = false;
         snapTurn.rightHandSnapTurnAction = new InputActionProperty(Inputs.RightStickTurn);
+
+        var xrHud = new GameObject("XR HUD");
+        xrHud.transform.SetParent(newCamera.transform, false);
+        xrHud.transform.localPosition = new Vector3(0, 0, 2f);
+
+        Core.Instance.UIManager.gameplay.transform.parent.gameObject.AddComponent<XRHud>();
     }
 
     [HarmonyPostfix]
