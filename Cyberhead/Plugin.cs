@@ -16,12 +16,17 @@ public class Plugin : BaseUnityPlugin {
     public static ManualLogSource Log = null!;
     public static Harmony Harmony = null!;
     public static Config CyberheadConfig = null!;
-    public static GameObject? XRRig = null;
+    public static GameObject? XRRig;
+    public static SlopCrewSupport? SlopCrewSupport;
 
     private void Awake() {
         Log = this.Logger;
         Harmony = new Harmony(PluginInfo.PLUGIN_GUID);
         CyberheadConfig = new Config(this.Config);
+        SlopCrewSupport = new SlopCrewSupport();
+
+        // Disabling VR means only Slop Crew support
+        if (!CyberheadConfig.General.VrEnabled.Value) return;
         Harmony.PatchAll();
 
         InputSystem.PerformDefaultPluginInitialization();
@@ -74,5 +79,6 @@ public class Plugin : BaseUnityPlugin {
 
     private void OnDestroy() {
         Harmony.UnpatchSelf();
+        SlopCrewSupport?.Dispose();
     }
 }

@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyberhead", "Cyberhead\Cybe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyberhead.Patcher", "Cyberhead.Patcher\Cyberhead.Patcher.csproj", "{985076B2-653B-4CC0-9A7D-73A5F55A6FDE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlopCrew.API", "libs\SlopCrew\SlopCrew.API\SlopCrew.API.csproj", "{2E4F447A-1B16-4529-9812-AD8E74412BB2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{14990437-8DF9-4476-90CF-030B04521DF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,12 @@ Global
 		{985076B2-653B-4CC0-9A7D-73A5F55A6FDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{985076B2-653B-4CC0-9A7D-73A5F55A6FDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{985076B2-653B-4CC0-9A7D-73A5F55A6FDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E4F447A-1B16-4529-9812-AD8E74412BB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E4F447A-1B16-4529-9812-AD8E74412BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E4F447A-1B16-4529-9812-AD8E74412BB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E4F447A-1B16-4529-9812-AD8E74412BB2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2E4F447A-1B16-4529-9812-AD8E74412BB2} = {14990437-8DF9-4476-90CF-030B04521DF0}
 	EndGlobalSection
 EndGlobal

@@ -69,6 +69,10 @@
             <HintPath>$(ManagedPath)/UnityEngine.UIModule.dll</HintPath>
             <Private>false</Private>
         </Reference>
+        <Reference Include="UnityEngine.UI">
+            <HintPath>$(ManagedPath)/UnityEngine.UI.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
 
         <Reference Include="Unity.XR.CoreUtils">
             <HintPath>../libs/managed/Unity.XR.CoreUtils.dll</HintPath>
@@ -101,6 +105,10 @@
         <Reference Include="Unity.Burst">
             <HintPath>../libs/managed/Unity.Burst.dll</HintPath>
         </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\libs\SlopCrew\SlopCrew.API\SlopCrew.API.csproj"/>
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
