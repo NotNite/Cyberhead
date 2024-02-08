@@ -21,7 +21,9 @@ public class PlayerPatch {
         if (__instance.isAI) return;
 
         var origin = new GameObject("XROrigin");
-        origin.transform.SetParent(__instance.transform, false);
+        Plugin.XRRig = origin;
+        origin.transform.position = __instance.transform.position;
+        origin.transform.rotation = __instance.transform.rotation;
         var originComponent = origin.AddComponent<XROrigin>();
 
         var cameraOffset = new GameObject("CameraOffset");
@@ -32,6 +34,7 @@ public class PlayerPatch {
         var newCamera = new GameObject("XR Camera");
         newCamera.transform.SetParent(cameraOffset.transform, false);
         var newCameraComponent = newCamera.AddComponent<Camera>();
+        newCameraComponent.nearClipPlane = 0.01f;
 
         originComponent.Camera = newCameraComponent;
         originComponent.CameraFloorOffsetObject = cameraOffset;
@@ -53,17 +56,17 @@ public class PlayerPatch {
         // These don't seem right but idc
         var ikL = new GameObject("IK");
         ikL.transform.SetParent(handL.transform, false);
-        ikL.transform.rotation = Quaternion.Euler(90, 0, 0);
+        //ikL.transform.rotation = Quaternion.Euler(90, 0, 0);
         var ikR = new GameObject("IK");
         ikR.transform.SetParent(handR.transform, false);
-        ikR.transform.rotation = Quaternion.Euler(-90, 0, 0);
+        //ikR.transform.rotation = Quaternion.Euler(-90, 0, 0);
 
         handL.AddComponent<XRHand>().Init(true);
         handR.AddComponent<XRHand>().Init(false);
 
         ApplyIK(__instance);
-        __instance.characterVisual.handIKTargetL = handL.transform;
-        __instance.characterVisual.handIKTargetR = handR.transform;
+        __instance.characterVisual.handIKTargetL = ikL.transform;
+        __instance.characterVisual.handIKTargetR = ikR.transform;
     }
 
     [HarmonyPostfix]
@@ -78,15 +81,16 @@ public class PlayerPatch {
     [HarmonyPostfix]
     [HarmonyPatch("SetCharacter")]
     public static void SetCharacter(Player __instance, Characters setChar, int setOutfit = 0) {
-        if (!__instance.isAI && __instance.tf.Find("XROrigin") != null) {
-            ApplyIK(__instance);
-        }
+        if (!__instance.isAI) ApplyIK(__instance);
     }
 
     private static void ApplyIK(Player player) {
         player.characterVisual.handIKActiveL = true;
         player.characterVisual.handIKActiveR = true;
-        player.characterVisual.handIKTargetL = player.tf.Find("XROrigin/CameraOffset/XR Hand L/IK");
-        player.characterVisual.handIKTargetR = player.tf.Find("XROrigin/CameraOffset/XR Hand R/IK");
+        if (Plugin.XRRig != null) {
+            player.characterVisual.handIKTargetL = Plugin.XRRig.transform.Find("CameraOffset/XR Hand L/IK");
+            player.characterVisual.handIKTargetR = Plugin.XRRig.transform.Find("CameraOffset/XR Hand R/IK");
+            Plugin.Log.LogInfo(player.characterVisual.handIKTargetL);
+        }
     }
 }

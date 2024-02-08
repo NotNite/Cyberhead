@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Management;
 using UnityEngine.XR.OpenXR;
+using UnityEngine.XR.OpenXR.Features.Interactions;
 
 namespace Cyberhead;
 
@@ -15,7 +16,7 @@ public class Plugin : BaseUnityPlugin {
     public static ManualLogSource Log = null!;
     public static Harmony Harmony = null!;
     public static Config CyberheadConfig = null!;
-    public static AssetBundle AssetBundle = null!;
+    public static GameObject? XRRig = null;
 
     private void Awake() {
         Log = this.Logger;
@@ -24,6 +25,12 @@ public class Plugin : BaseUnityPlugin {
         Harmony.PatchAll();
 
         InputSystem.PerformDefaultPluginInitialization();
+
+        var oculusTouch = ScriptableObject.CreateInstance<OculusTouchControllerProfile>();
+        oculusTouch.enabled = true;
+        OpenXRSettings.Instance.features = [
+            oculusTouch
+        ];
 
         // Completely stolen from LCVR please don't kill me
         // https://github.com/DaXcess/LCVR

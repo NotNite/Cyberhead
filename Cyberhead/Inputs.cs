@@ -9,8 +9,8 @@ public class Inputs {
     public static InputAction LeftControllerMove = null!;
     public static InputAction RightControllerRotate = null!;
     public static InputAction RightControllerMove = null!;
-
-    // TODO: bindings and a Rewired forwarder
+    public static InputAction LeftStickMove = null!;
+    public static InputAction RightContollerJump = null!;
 
     public static void Init() {
         HMDLook = new InputAction("HMDLook", InputActionType.Value,
@@ -34,11 +34,20 @@ public class Inputs {
                                               "<XRController>{RightHand}/devicePosition",
                                               expectedControlType: "Vector3");
 
+        LeftStickMove = new InputAction("LeftStickMove", InputActionType.Value,
+                                        "<XRController>{LeftHand}/primary2DAxis",
+                                        expectedControlType: "Vector2");
+
+        RightContollerJump = new InputAction("RightContollerJump", InputActionType.Button,
+                                             "<XRController>{RightHand}/primaryButton");
+
         HMDLook.Enable();
         HMDMove.Enable();
         LeftControllerRotate.Enable();
         LeftControllerMove.Enable();
         RightControllerRotate.Enable();
         RightControllerMove.Enable();
+        LeftStickMove.Enable();
+        RightContollerJump.Enable();
     }
 }
