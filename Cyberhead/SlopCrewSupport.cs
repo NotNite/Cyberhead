@@ -24,7 +24,7 @@ public class SlopCrewSupport : IDisposable {
         this.api = api;
         this.api.OnCustomPacketReceived += this.OnCustomPacketReceived;
 
-        this.timer = new Timer(1000f / 5f);
+        this.timer = new Timer(1000f / 10f);
         this.timer.Elapsed += this.SendVrIkPacket;
         this.timer.Start();
     }
@@ -79,17 +79,17 @@ public class SlopCrewSupport : IDisposable {
         var handL = playerController.characterVisual.handL;
         var handR = playerController.characterVisual.handR;
 
-        var ikL = handL.transform.Find("IK");
+        var ikL = playerObj.transform.Find("IKL");
         if (ikL == null) {
-            ikL = new GameObject("IK").transform;
-            ikL.SetParent(handL.transform, false);
+            ikL = new GameObject("IKR").transform;
+            ikL.SetParent(playerObj.transform, false);
             ikL.gameObject.AddComponent<SlopCrewSynced>();
         }
 
-        var ikR = handR.transform.Find("IK");
+        var ikR = playerObj.transform.Find("IKR");
         if (ikR == null) {
-            ikR = new GameObject("IK").transform;
-            ikR.SetParent(handR.transform, false);
+            ikR = new GameObject("IKL").transform;
+            ikR.SetParent(playerObj.transform, false);
             ikR.gameObject.AddComponent<SlopCrewSynced>();
         }
 

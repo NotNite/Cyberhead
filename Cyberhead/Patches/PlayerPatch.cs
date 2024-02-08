@@ -65,7 +65,8 @@ public class PlayerPatch {
         handL.AddComponent<XRHand>().Init(true);
         handR.AddComponent<XRHand>().Init(false);
 
-        ApplyIK(__instance);
+        __instance.characterVisual.handIKActiveL = true;
+        __instance.characterVisual.handIKActiveR = true;
         __instance.characterVisual.handIKTargetL = ikL.transform;
         __instance.characterVisual.handIKTargetR = ikR.transform;
 
@@ -89,25 +90,20 @@ public class PlayerPatch {
     }
 
     [HarmonyPostfix]
-    [HarmonyPatch("FixedUpdatePlayer")]
-    public static void FixedUpdatePlayer(Player __instance) {
-        __instance.characterVisual.handIKActiveL = __instance.characterVisual.handIKTargetL != null;
-        __instance.characterVisual.handIKActiveR = __instance.characterVisual.handIKTargetR != null;
-    }
-
-    [HarmonyPostfix]
     [HarmonyPatch("SetCharacter")]
     public static void SetCharacter(Player __instance, Characters setChar, int setOutfit = 0) {
         if (!Plugin.CyberheadConfig.General.VrEnabled.Value) return;
-        if (!__instance.isAI) ApplyIK(__instance);
     }
 
-    private static void ApplyIK(Player player) {
-        player.characterVisual.handIKActiveL = true;
-        player.characterVisual.handIKActiveR = true;
+    public static void ApplyIK(CharacterVisual characterVisual) {
         if (Plugin.XRRig != null) {
-            player.characterVisual.handIKTargetL = Plugin.XRRig.transform.Find("CameraOffset/XR Hand L/IK");
-            player.characterVisual.handIKTargetR = Plugin.XRRig.transform.Find("CameraOffset/XR Hand R/IK");
+            characterVisual.handIKTargetL = Plugin.XRRig.transform.Find("CameraOffset/XR Hand L/IK");
+            characterVisual.handIKTargetR = Plugin.XRRig.transform.Find("CameraOffset/XR Hand R/IK");
+        } else if (characterVisual.handL.Find("IKL") != null) {
+            characterVisual.handIKTargetL = characterVisual.gameObject.transform.parent.parent.Find("IKL");
+            characterVisual.handIKTargetR = characterVisual.gameObject.transform.parent.parent.Find("IKR");
         }
+        characterVisual.handIKActiveL = characterVisual.handIKTargetL != null;
+        characterVisual.handIKActiveR = characterVisual.handIKTargetR != null;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Reptile;
+using UnityEngine;
 
 namespace Cyberhead.Patches;
 
@@ -22,5 +23,28 @@ public static class CharacterVisualPatch {
             return false;
         }
         return true;
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch("SetMoveStyleVisualAnim")]
+    public static void SetMoveStyleVisualAnim(
+        CharacterVisual __instance,
+        Player player,
+        MoveStyle setMoveStyle,
+        GameObject specialSkateboard = null
+    ) {
+        PlayerPatch.ApplyIK(__instance);
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch("SetPhone")]
+    public static void SetPhone(CharacterVisual __instance, bool set) {
+        PlayerPatch.ApplyIK(__instance);
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch("SetSpraycan")]
+    public static void SetSpraycan(CharacterVisual __instance, bool set, Characters c = Characters.NONE) {
+        PlayerPatch.ApplyIK(__instance);
     }
 }
