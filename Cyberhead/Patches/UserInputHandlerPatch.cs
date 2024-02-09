@@ -9,6 +9,7 @@ public class UserInputHandlerPatch {
     [HarmonyPostfix]
     [HarmonyPatch("PollInputs")]
     public static void PollInputs(ref UserInputHandler.InputBuffer inputBuffer) {
+        return;
         if (!Plugin.CyberheadConfig.General.VrEnabled.Value) return;
 
         var move = Inputs.LeftStickMove.ReadValue<Vector2>();

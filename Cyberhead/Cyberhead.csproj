@@ -73,6 +73,11 @@
             <HintPath>$(ManagedPath)/UnityEngine.UI.dll</HintPath>
             <Private>false</Private>
         </Reference>
+        <Reference Include="Rewired_Core">
+            <HintPath>$(ManagedPath)/Rewired_Core.dll</HintPath>
+            <Private>false</Private>
+            <Publicize>true</Publicize>
+        </Reference>
 
         <Reference Include="Unity.XR.CoreUtils">
             <HintPath>../libs/managed/Unity.XR.CoreUtils.dll</HintPath>
