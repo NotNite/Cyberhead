@@ -6,8 +6,11 @@ using UnityEngine.InputSystem.XR;
 namespace Cyberhead;
 
 public class XRCamera : MonoBehaviour {
+    public Vector3? LockedPos;
+
     private TrackedPoseDriver trackedPoseDriver = null!;
     private XROrigin origin = null!;
+    private Camera theaterCamera = null!;
 
     private void Awake() {
         this.trackedPoseDriver = this.gameObject.AddComponent<TrackedPoseDriver>();
@@ -17,12 +20,37 @@ public class XRCamera : MonoBehaviour {
 
         var cameraOffset = this.gameObject.transform.parent;
         this.origin = cameraOffset.parent.gameObject.GetComponent<XROrigin>();
+        this.theaterCamera = this.gameObject.AddComponent<Camera>();
+        this.theaterCamera.enabled = false;
+        this.theaterCamera.depth = 0;
     }
 
     private void LateUpdate() {
-        var worldHandler = WorldHandler.instance;
-        if (worldHandler == null) return;
-        var player = worldHandler.GetCurrentPlayer();
+        var player = this.GetCurrentPlayer();
+
+        if (this.LockedPos != null) {
+            this.origin.transform.position = this.LockedPos.Value;
+            this.origin.transform.rotation = Quaternion.identity;
+            this.theaterCamera.enabled = true;
+
+            foreach (var cam in Camera.allCameras) {
+                if (cam == this.theaterCamera) continue;
+                if (cam.GetComponent<GameplayCamera>() != null) continue;
+                cam.targetTexture = Plugin.CutsceneRenderTexture;
+                break;
+            }
+
+            return;
+        } else {
+            if (this.theaterCamera.enabled) {
+                this.theaterCamera.enabled = false;
+                foreach (var cam in Camera.allCameras) {
+                    if (cam.targetTexture == Plugin.CutsceneRenderTexture) cam.targetTexture = null;
+                }
+                if (player != null) this.MoveWithPlayer(player.transform.position);
+            }
+        }
+
         if (player != null) {
             var tf = this.transform;
             var position = tf.position;
@@ -57,6 +85,13 @@ public class XRCamera : MonoBehaviour {
                 camTf.rotation = rotation;
             }
         }
+    }
+
+    private Player? GetCurrentPlayer() {
+        var worldHandler = WorldHandler.instance;
+        if (worldHandler == null) return null;
+        var player = worldHandler.GetCurrentPlayer();
+        return player;
     }
 
     public void MoveWithPlayer(Vector3 playerPos) {

@@ -81,6 +81,9 @@ public class PlayerPatch {
         xrHud.transform.SetParent(newCamera.transform, false);
         xrHud.transform.localPosition = new Vector3(0, 0, 2f);
 
+        // Move the rig to the top of the scene so our camera renders first
+        Plugin.XRRig.transform.SetAsFirstSibling();
+
         Core.Instance.UIManager.gameplay.transform.parent.gameObject.AddComponent<XRHud>();
     }
 

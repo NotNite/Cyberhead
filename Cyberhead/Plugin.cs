@@ -19,6 +19,7 @@ public class Plugin : BaseUnityPlugin {
     public static Config CyberheadConfig = null!;
     public static GameObject? XRRig;
     public static SlopCrewSupport? SlopCrewSupport;
+    public static RenderTexture CutsceneRenderTexture = null!;
 
     private void Awake() {
         Log = this.Logger;
@@ -76,6 +77,8 @@ public class Plugin : BaseUnityPlugin {
         generalSettings.Start();
 
         Inputs.Init();
+
+        CutsceneRenderTexture = new RenderTexture(Screen.width, Screen.height, 24);
     }
 
     private void LateUpdate() {
