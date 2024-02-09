@@ -19,7 +19,7 @@ public class XRCamera : MonoBehaviour {
         this.origin = cameraOffset.parent.gameObject.GetComponent<XROrigin>();
     }
 
-    private void Update() {
+    private void LateUpdate() {
         var worldHandler = WorldHandler.instance;
         if (worldHandler == null) return;
         var player = worldHandler.GetCurrentPlayer();
@@ -28,12 +28,9 @@ public class XRCamera : MonoBehaviour {
             var position = tf.position;
             var rotation = tf.rotation;
 
-            if (player.GetVelocity().magnitude > 0) {
-                // Player is moving, we need to follow along
-                var anchorOffset = this.transform.position - this.origin.transform.position;
-                anchorOffset.y = 0;
-                var playerPos = player.transform.position;
-                this.origin.transform.position = playerPos - anchorOffset;
+            // Check for userInputEnabled so the game can teleport us when we die
+            if (player.GetVelocity().magnitude > 0 || !player.userInputEnabled) {
+                this.MoveWithPlayer(player.transform.position);
             } else {
                 // Snap the player to us when walking around in playspace
                 const float posThreshold = 0f;
@@ -60,5 +57,11 @@ public class XRCamera : MonoBehaviour {
                 camTf.rotation = rotation;
             }
         }
+    }
+
+    public void MoveWithPlayer(Vector3 playerPos) {
+        var anchorOffset = this.transform.position - this.origin.transform.position;
+        anchorOffset.y = 0;
+        this.origin.transform.position = playerPos - anchorOffset;
     }
 }

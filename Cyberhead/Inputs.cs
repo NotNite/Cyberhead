@@ -15,6 +15,9 @@ public class Inputs {
     public static InputAction RightStickTurn = null!;
     public static InputAction RightTriggerManual = null!;
     public static InputAction RightGripBoost = null!;
+    public static InputAction LeftControllerTrickOne = null!;
+    public static InputAction LeftControllerTrickTwo = null!;
+    public static InputAction LeftControllerTrickThree = null!;
 
     public static void Init() {
         HMDLook = new InputAction("HMDLook", InputActionType.Value,
@@ -52,6 +55,13 @@ public class Inputs {
         RightGripBoost = new InputAction("RightGripBoost", InputActionType.Button,
                                          "<XRController>{RightHand}/gripButton");
 
+        LeftControllerTrickOne = new InputAction("LeftControllerTrickOne", InputActionType.Button,
+                                                 "<XRController>{LeftHand}/primaryButton");
+        LeftControllerTrickTwo = new InputAction("LeftControllerTrickTwo", InputActionType.Button,
+                                                 "<XRController>{LeftHand}/secondaryButton");
+        LeftControllerTrickThree = new InputAction("LeftControllerTrickThree", InputActionType.Button,
+                                                   "<XRController>{LeftHand}/{Primary2DAxisClick}");
+
         HMDLook.Enable();
         HMDMove.Enable();
         LeftControllerRotate.Enable();
@@ -66,5 +76,9 @@ public class Inputs {
         RightStickTurn.Enable();
         RightTriggerManual.Enable();
         RightGripBoost.Enable();
+
+        LeftControllerTrickOne.Enable();
+        LeftControllerTrickTwo.Enable();
+        LeftControllerTrickThree.Enable();
     }
 }

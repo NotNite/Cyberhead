@@ -82,4 +82,21 @@ public class Plugin : BaseUnityPlugin {
         Harmony.UnpatchSelf();
         SlopCrewSupport?.Dispose();
     }
+
+    public static void ApplyIk(CharacterVisual characterVisual) {
+        var origPlayer = characterVisual.gameObject.transform.parent;
+        if (origPlayer == null) return;
+        origPlayer = origPlayer.parent;
+        if (origPlayer == null) return;
+
+        if (XRRig != null && !origPlayer.GetComponent<Player>().isAI) {
+            characterVisual.handIKTargetL = XRRig.transform.Find("CameraOffset/XR Hand L/IK");
+            characterVisual.handIKTargetR = XRRig.transform.Find("CameraOffset/XR Hand R/IK");
+        } else if (origPlayer.Find("IKL") != null) {
+            characterVisual.handIKTargetL = origPlayer.Find("IKL");
+            characterVisual.handIKTargetR = origPlayer.Find("IKR");
+        }
+        characterVisual.handIKActiveL = characterVisual.handIKTargetL != null;
+        characterVisual.handIKActiveR = characterVisual.handIKTargetR != null;
+    }
 }

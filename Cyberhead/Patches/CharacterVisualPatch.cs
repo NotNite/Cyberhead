@@ -33,18 +33,18 @@ public static class CharacterVisualPatch {
         MoveStyle setMoveStyle,
         GameObject specialSkateboard = null
     ) {
-        PlayerPatch.ApplyIK(__instance);
+        Plugin.ApplyIk(__instance);
     }
 
     [HarmonyPostfix]
     [HarmonyPatch("SetPhone")]
     public static void SetPhone(CharacterVisual __instance, bool set) {
-        PlayerPatch.ApplyIK(__instance);
+        Plugin.ApplyIk(__instance);
     }
 
     [HarmonyPostfix]
     [HarmonyPatch("SetSpraycan")]
     public static void SetSpraycan(CharacterVisual __instance, bool set, Characters c = Characters.NONE) {
-        PlayerPatch.ApplyIK(__instance);
+        Plugin.ApplyIk(__instance);
     }
 }

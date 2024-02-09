@@ -95,16 +95,11 @@ public class PlayerPatch {
         if (!Plugin.CyberheadConfig.General.VrEnabled.Value) return;
     }
 
-    public static void ApplyIK(CharacterVisual characterVisual) {
-        var origPlayer = characterVisual.gameObject.transform.parent.parent.gameObject;
-        if (Plugin.XRRig != null && !origPlayer.GetComponent<Player>().isAI) {
-            characterVisual.handIKTargetL = Plugin.XRRig.transform.Find("CameraOffset/XR Hand L/IK");
-            characterVisual.handIKTargetR = Plugin.XRRig.transform.Find("CameraOffset/XR Hand R/IK");
-        } else if (origPlayer.transform.Find("IKL") != null) {
-            characterVisual.handIKTargetL = origPlayer.transform.Find("IKL");
-            characterVisual.handIKTargetR = origPlayer.transform.Find("IKR");
+    [HarmonyPostfix]
+    [HarmonyPatch("SetPosAndRotHard")]
+    public static void SetPosAndRotHard(Player __instance, Vector3 pos, Quaternion rot) {
+        if (!__instance.isAI && Plugin.XRRig != null) {
+            Plugin.XRRig.transform.Find("CameraOffset/XR Camera").GetComponent<XRCamera>().MoveWithPlayer(pos);
         }
-        characterVisual.handIKActiveL = characterVisual.handIKTargetL != null;
-        characterVisual.handIKActiveR = characterVisual.handIKTargetR != null;
     }
 }
