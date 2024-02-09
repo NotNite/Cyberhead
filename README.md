@@ -6,7 +6,7 @@ Bomb Rush Cyberfunk proof of concept VR mod.
 
 - Looking around
 - Moving around (somewhat)
-  - Teleports, deaths, grinding, etc. are very janky
+  - Teleports are janky and you may clip out of bounds when changing levels
 - Some controller input
   - Move around (left stick)
   - Snap turn (right stick)
@@ -14,16 +14,18 @@ Bomb Rush Cyberfunk proof of concept VR mod.
   - Switch movestyle (right controller secondary)
   - Manual/slide (right controller trigger)
   - Boost (right controller grip)
+  - Trick (right controller primary/secondary/stick pressed)
 - Hand IK (somewhat)
   - Hands are rotated wrongly
   - Sometimes they just give up
+- The HUD (somewhat)
+- Slop Crew integration (somewhat)
+  - Very buggy and unreliable, suggested to not use if not in VR
 
 ## What doesn't work
 
-- The HUD
 - The main menu, cutscenes, phone, etc. (anything that isn't normal gameplay)
   - Use the desktop or [QuickLaunch](https://thunderstore.io/c/bomb-rush-cyberfunk/p/LazyDuchess/QuickLaunch/) to get into game
-- Slop Crew integration
 
 ## Credits
 
