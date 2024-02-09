@@ -33,20 +33,15 @@ public class PlayerPatch {
         var cameraOffset = new GameObject("CameraOffset");
         cameraOffset.transform.SetParent(origin.transform, false);
         originComponent.CameraFloorOffsetObject = cameraOffset;
+        Utils.AlignHead(__instance);
 
         // Need to make a new camera because GameplayCamera is completely black
         // TODO: figure out how to fix GameplayCamera being black and just use it instead
         var newCamera = new GameObject("XR Camera");
         newCamera.transform.SetParent(cameraOffset.transform, false);
 
-        originComponent.CameraYOffset = __instance.characterVisual.head.position.y - __instance.transform.position.y;
-        cameraOffset.transform.localPosition = new Vector3(0, -originComponent.CameraYOffset, 0);
-
         newCamera.AddComponent<XRCamera>();
         Core.Instance.UIManager.transform.Find("UICamera").GetComponent<Camera>().enabled = false;
-
-        // Incredible jank to get the player body (but not head) to show up in VR
-        __instance.headTf.localScale = Vector3.zero;
 
         // Make the hands
         var handL = new GameObject("XR Hand L");
@@ -93,8 +88,8 @@ public class PlayerPatch {
     [HarmonyPatch("SetCharacter")]
     public static void SetCharacter(Player __instance, Characters setChar, int setOutfit = 0) {
         if (!Plugin.CyberheadConfig.General.VrEnabled.Value) return;
-        Plugin.ApplyIk(__instance.characterVisual);
-        if (!__instance.isAI) __instance.characterVisual.head.localScale = Vector3.zero;
+        Utils.ApplyIk(__instance.characterVisual);
+        if (!__instance.isAI) Utils.AlignHead(__instance);
     }
 
     [HarmonyPostfix]
