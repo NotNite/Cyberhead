@@ -1,4 +1,5 @@
-﻿using UnityEngine.InputSystem;
+﻿using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 namespace Cyberhead;
 
@@ -18,6 +19,8 @@ public class Inputs {
     public static InputAction LeftControllerTrickOne = null!;
     public static InputAction LeftControllerTrickTwo = null!;
     public static InputAction LeftControllerTrickThree = null!;
+
+    public static List<string> BufferedInputs = new();
 
     public static void Init() {
         HMDLook = new InputAction("HMDLook", InputActionType.Value,
@@ -80,5 +83,32 @@ public class Inputs {
         LeftControllerTrickOne.Enable();
         LeftControllerTrickTwo.Enable();
         LeftControllerTrickThree.Enable();
+    }
+
+    // Controller inputs seem unreliable so we'll buffer them
+    public static void Update() {
+        InputAction[] inputs = [
+            RightContollerJump,
+            RightControllerSwitchStyle,
+            RightTriggerManual,
+            RightGripBoost,
+            LeftControllerTrickOne,
+            LeftControllerTrickTwo,
+            LeftControllerTrickThree
+        ];
+        foreach (var input in inputs) {
+            if (input.triggered && !BufferedInputs.Contains(input.name)) {
+                BufferedInputs.Add(input.name);
+            }
+        }
+    }
+
+    public static bool FetchBuffer(InputAction action) {
+        if (BufferedInputs.Contains(action.name)) {
+            BufferedInputs.Remove(action.name);
+            return true;
+        }
+
+        return action.triggered;
     }
 }

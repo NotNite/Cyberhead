@@ -78,6 +78,10 @@ public class Plugin : BaseUnityPlugin {
         Inputs.Init();
     }
 
+    private void LateUpdate() {
+        Inputs.Update();
+    }
+
     private void OnDestroy() {
         Harmony.UnpatchSelf();
         SlopCrewSupport?.Dispose();
