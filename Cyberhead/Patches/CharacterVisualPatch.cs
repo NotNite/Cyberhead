@@ -14,9 +14,17 @@ public static class CharacterVisualPatch {
     ) {
         if (!Plugin.CyberheadConfig.General.VrEnabled.Value) return true;
 
-        var player = __instance.transform.parent.parent.gameObject;
-        var mainPlayer = WorldHandler.instance.GetCurrentPlayer().gameObject;
-        if (player == mainPlayer) {
+        var player = __instance.transform.parent;
+        if (player == null) return true;
+        player = player.parent;
+        if (player == null) return true;
+
+        var worldHandler = WorldHandler.instance;
+        if (worldHandler == null) return true;
+        var currentPlayer = worldHandler.GetCurrentPlayer();
+        if (currentPlayer == null) return true;
+
+        if (player.gameObject == currentPlayer.gameObject) {
             __instance.VFX.boostpackEffect.SetActive(false);
             __instance.VFX.boostpackBlueEffect.SetActive(false);
             __instance.VFX.boostpackTrail.SetActive(false);
