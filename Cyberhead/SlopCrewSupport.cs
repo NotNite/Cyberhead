@@ -81,14 +81,14 @@ public class SlopCrewSupport : IDisposable {
 
         var ikL = playerObj.transform.Find("IKL");
         if (ikL == null) {
-            ikL = new GameObject("IKR").transform;
+            ikL = new GameObject("IKL").transform;
             ikL.SetParent(playerObj.transform, false);
             ikL.gameObject.AddComponent<SlopCrewSynced>();
         }
 
         var ikR = playerObj.transform.Find("IKR");
         if (ikR == null) {
-            ikR = new GameObject("IKL").transform;
+            ikR = new GameObject("IKR").transform;
             ikR.SetParent(playerObj.transform, false);
             ikR.gameObject.AddComponent<SlopCrewSynced>();
         }
