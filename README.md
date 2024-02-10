@@ -2,6 +2,9 @@
 
 Bomb Rush Cyberfunk proof of concept VR mod.
 
+> [!WARNING]
+> This mod is a proof of concept with lots of bugs. It will be laggy, behave strangely, and will break things. Once I iron everything out, I'll upload it to Thunderstore.
+
 ## What works
 
 - Looking around
@@ -21,9 +24,18 @@ Bomb Rush Cyberfunk proof of concept VR mod.
 - The HUD (somewhat)
 - Slop Crew integration (somewhat)
   - Very buggy and unreliable, suggested to not use if not in VR
+- Flatscreen UI in menus (somewhat)
+  - Only tested on the outfit changing screen
+  - Swirl shader is broken
 
 ## What doesn't work
 
+- Seeing your head
+  - I call it "Faux Mode"
+- Any inputs not currently bound
+  - Talking to NPCs, doing graffiti
+  - The phone
+  - Dancing
 - The main menu, cutscenes, phone, etc. (anything that isn't normal gameplay)
   - Use the desktop or [QuickLaunch](https://thunderstore.io/c/bomb-rush-cyberfunk/p/LazyDuchess/QuickLaunch/) to get into game
 
