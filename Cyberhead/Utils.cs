@@ -98,11 +98,13 @@ public class Utils {
         if (Plugin.XRRig != null && !origPlayer.GetComponent<Player>().isAI) {
             characterVisual.handIKTargetL = Plugin.XRRig.transform.Find("CameraOffset/XR Hand L/IK");
             characterVisual.handIKTargetR = Plugin.XRRig.transform.Find("CameraOffset/XR Hand R/IK");
+            characterVisual.handIKActiveL = true;
+            characterVisual.handIKActiveR = true;
         } else if (origPlayer.Find("IKL") != null) {
             characterVisual.handIKTargetL = origPlayer.Find("IKL");
             characterVisual.handIKTargetR = origPlayer.Find("IKR");
+            characterVisual.handIKActiveL = true;
+            characterVisual.handIKActiveR = true;
         }
-        characterVisual.handIKActiveL = characterVisual.handIKTargetL != null;
-        characterVisual.handIKActiveR = characterVisual.handIKTargetR != null;
     }
 }

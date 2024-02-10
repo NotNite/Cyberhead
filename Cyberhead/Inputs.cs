@@ -256,6 +256,8 @@ public class Inputs {
 
     // Controller inputs seem unreliable so we'll buffer them
     public static void Update() {
+        if (!Plugin.CyberheadConfig.General.VrEnabled.Value) return;
+
         InputAction[] inputs = [
             RightContollerJump,
             RightControllerSwitchStyle,
