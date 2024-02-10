@@ -3,14 +3,28 @@
 Bomb Rush Cyberfunk proof of concept VR mod.
 
 > [!WARNING]
-> This mod is a proof of concept with lots of bugs. It will be laggy, behave strangely, and will break things. Once I iron everything out, I'll upload it to Thunderstore.
+> This mod is a proof of concept with lots of bugs. It will be laggy, behave strangely, and will break things. It is not finished, and by using it, you accept there will be weird oddities.
+
+It is suggested to use this mod on a post-game save file (you backed it up, right?).
+
+## Known bugs
+
+- Head is not visible in cutscenes
+  - I call it "Faux Mode"
+- Menus, cutscenes, and graffiti do not work
+  - Use the desktop or [QuickLaunch](https://thunderstore.io/c/bomb-rush-cyberfunk/p/LazyDuchess/QuickLaunch/) to get into game
+- Flatscreen mode (talking to NPCs or switching outfits) is very buggy
+- Swirl shader renders weirdly in VR
+- Hand IK is weird in cutscenes and while dancing
+
+If you encounter any more issues, please report them on GitHub!
 
 ## What works
 
 - Looking around
-- Moving around (somewhat)
-  - Teleports are janky and you may clip out of bounds when changing levels
-- Some controller input
+- Moving around
+  - You may clip out of bounds when changing levels
+- Some controller input (inputs are a WIP and guaranteed to change)
   - Move around (left stick)
   - Snap turn (right stick)
   - Jump (right controller primary)
@@ -18,26 +32,13 @@ Bomb Rush Cyberfunk proof of concept VR mod.
   - Manual/slide (right controller trigger)
   - Boost (right controller grip)
   - Trick (right controller primary/secondary/stick pressed)
-- Hand IK (somewhat)
-  - Hands are rotated wrongly
-  - Sometimes they just give up
-- The HUD (somewhat)
-- Slop Crew integration (somewhat)
-  - Very buggy and unreliable, suggested to not use if not in VR
-- Flatscreen UI in menus (somewhat)
-  - Only tested on the outfit changing screen
-  - Swirl shader is broken
-
-## What doesn't work
-
-- Seeing your head
-  - I call it "Faux Mode"
-- Any inputs not currently bound
-  - Talking to NPCs, doing graffiti
-  - The phone
-  - Dancing
-- The main menu, cutscenes, phone, etc. (anything that isn't normal gameplay)
-  - Use the desktop or [QuickLaunch](https://thunderstore.io/c/bomb-rush-cyberfunk/p/LazyDuchess/QuickLaunch/) to get into game
+  - Interact (left controller trigger)
+  - Dance (left controller grip)
+  - Pause (right controller stick click)
+- Hand IK
+- The HUD
+- Slop Crew integration
+- Flatscreen UI in menus
 
 ## Credits
 
