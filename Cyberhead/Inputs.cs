@@ -99,10 +99,33 @@ public class Inputs {
     private static void InitializeRewired() {
         // Create Rewired controller to forward
         ControllerElementIdentifier[] buttons = [
-            new ControllerElementIdentifier(0, "MoveX", "MoveX +", "MoveX -",
+            new ControllerElementIdentifier(ButtonIDs.MoveX,
+                                            "MoveX", "MoveX +", "MoveX -",
                                             ControllerElementType.Axis, false),
-            new ControllerElementIdentifier(1, "MoveY", "MoveY +", "MoveY -",
+            new ControllerElementIdentifier(ButtonIDs.MoveY,
+                                            "MoveY", "MoveY +", "MoveY -",
                                             ControllerElementType.Axis, false),
+            new ControllerElementIdentifier(ButtonIDs.Jump,
+                                            "Jump", "", "",
+                                            ControllerElementType.Button, false),
+            new ControllerElementIdentifier(ButtonIDs.SwitchStyle,
+                                            "SwitchStyle", "", "",
+                                            ControllerElementType.Button, false),
+            new ControllerElementIdentifier(ButtonIDs.Manual,
+                                            "Manual", "", "",
+                                            ControllerElementType.Button, false),
+            new ControllerElementIdentifier(ButtonIDs.Boost,
+                                            "Boost", "", "",
+                                            ControllerElementType.Button, false),
+            new ControllerElementIdentifier(ButtonIDs.TrickOne,
+                                            "TrickOne", "", "",
+                                            ControllerElementType.Button, false),
+            new ControllerElementIdentifier(ButtonIDs.TrickTwo,
+                                            "TrickTwo", "", "",
+                                            ControllerElementType.Button, false),
+            new ControllerElementIdentifier(ButtonIDs.TrickThree,
+                                            "TrickThree", "", "",
+                                            ControllerElementType.Button, false)
         ];
 
         ReInput.UserData.AddCustomController();
@@ -143,19 +166,42 @@ public class Inputs {
 
         // Create the maps
         GameplayMap = BuildMap("Gameplay", 0, [
-            new ActionElementMap(TRInputId.moveX, ControllerElementType.Axis, 0,
-                                 Pole.Positive, AxisRange.Full, false),
-            new ActionElementMap(TRInputId.moveY, ControllerElementType.Axis, 1,
-                                 Pole.Positive, AxisRange.Full, false),
+            new ActionElementMap(TRInputId.moveX, ControllerElementType.Axis, ButtonIDs.MoveX,
+                                 Pole.Positive, AxisRange.Full),
+            new ActionElementMap(TRInputId.moveY, ControllerElementType.Axis, ButtonIDs.MoveY,
+                                 Pole.Positive, AxisRange.Full),
+            new ActionElementMap(TRInputId.jump, ControllerElementType.Button, ButtonIDs.Jump),
+            new ActionElementMap(TRInputId.switchStyle, ControllerElementType.Button, ButtonIDs.SwitchStyle),
+            new ActionElementMap(TRInputId.slide, ControllerElementType.Button, ButtonIDs.Manual),
+            new ActionElementMap(TRInputId.boost, ControllerElementType.Button, ButtonIDs.Boost),
+            new ActionElementMap(TRInputId.trick1, ControllerElementType.Button, ButtonIDs.TrickOne),
+            new ActionElementMap(TRInputId.trick2, ControllerElementType.Button, ButtonIDs.TrickTwo),
+            new ActionElementMap(TRInputId.trick3, ControllerElementType.Button, ButtonIDs.TrickThree)
+        ]);
+        UiMap = BuildMap("UI", 1, [
+            new ActionElementMap(TRInputId.menuX, ControllerElementType.Axis, ButtonIDs.MoveX,
+                                 Pole.Positive, AxisRange.Full),
+            new ActionElementMap(TRInputId.menuY, ControllerElementType.Axis, ButtonIDs.MoveY,
+                                 Pole.Positive, AxisRange.Full),
+            new ActionElementMap(TRInputId.menuConfirm, ControllerElementType.Button, ButtonIDs.Jump),
+            new ActionElementMap(TRInputId.menuCancel, ControllerElementType.Button, ButtonIDs.SwitchStyle),
         ]);
 
         ReInput.InputSourceUpdateEvent += UpdateRewiredInput;
     }
 
     private static void UpdateRewiredInput() {
+        Controller!.SetButtonValueById(ButtonIDs.Jump, FetchBuffer(RightContollerJump));
+        Controller.SetButtonValueById(ButtonIDs.SwitchStyle, FetchBuffer(RightControllerSwitchStyle));
+        Controller.SetButtonValueById(ButtonIDs.Manual, FetchBuffer(RightTriggerManual));
+        Controller.SetButtonValueById(ButtonIDs.Boost, FetchBuffer(RightGripBoost));
+        Controller.SetButtonValueById(ButtonIDs.TrickOne, FetchBuffer(LeftControllerTrickOne));
+        Controller.SetButtonValueById(ButtonIDs.TrickTwo, FetchBuffer(LeftControllerTrickTwo));
+        Controller.SetButtonValueById(ButtonIDs.TrickThree, FetchBuffer(LeftControllerTrickThree));
+
         var move = LeftStickMove.ReadValue<Vector2>();
-        Controller!.SetAxisValue(0, move.x);
-        Controller.SetAxisValue(1, move.y);
+        Controller.SetAxisValueById(ButtonIDs.MoveX, move.x);
+        Controller.SetAxisValueById(ButtonIDs.MoveY, move.y);
     }
 
     private static CustomControllerMap BuildMap(string name, int category, ActionElementMap[] maps) {
@@ -198,7 +244,7 @@ public class Inputs {
 
         // Force assign Rewired controller
         var core = Core.Instance;
-        if (Controller != null && GameplayMap != null && core != null) {
+        if (Controller != null && GameplayMap != null && UiMap != null && core != null) {
             var rewired = core.GameInput;
             var player = rewired.FirstRewiredPlayer;
 
@@ -207,14 +253,24 @@ public class Inputs {
                 Controller.enabled = true;
             }
 
-            if (player.controllers.maps.GetAllMaps(ControllerType.Custom).ToList().Count < 1) {
-                if (player.controllers.maps.GetMap(ControllerType.Custom, Controller.id, GameplayMap.categoryId,
+            if (player.controllers.maps.GetAllMaps(ControllerType.Custom).ToList().Count < 2) {
+                CustomControllerMap[] maps = [GameplayMap, UiMap];
+                foreach (var map in maps) {
+                    if (player.controllers.maps
+                            .GetMap(ControllerType.Custom, Controller.id, map.categoryId, map.layoutId) == null) {
+                        player.controllers.maps.AddMap(Controller, map);
+                    }
+
+                    if (!map.enabled) map.enabled = true;
+                }
+
+                /*if (player.controllers.maps.GetMap(ControllerType.Custom, Controller.id, GameplayMap.categoryId,
                                                    GameplayMap.layoutId) ==
                     null) {
                     player.controllers.maps.AddMap(Controller, GameplayMap);
                 }
-
                 if (!GameplayMap.enabled) GameplayMap.enabled = true;
+                */
             }
         }
     }
@@ -226,5 +282,17 @@ public class Inputs {
         }
 
         return action.triggered;
+    }
+
+    public class ButtonIDs {
+        public const int MoveX = 0;
+        public const int MoveY = 1;
+        public const int Jump = 2;
+        public const int SwitchStyle = 3;
+        public const int Manual = 4;
+        public const int Boost = 5;
+        public const int TrickOne = 6;
+        public const int TrickTwo = 7;
+        public const int TrickThree = 8;
     }
 }
