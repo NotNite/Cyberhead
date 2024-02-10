@@ -15,6 +15,7 @@ Bomb Rush Cyberfunk proof of concept VR mod.
 - Flatscreen mode (talking to NPCs or switching outfits) is very buggy
 - Swirl shader renders weirdly in VR
 - Hand IK is weird in cutscenes and while dancing
+- Input hints are broken
 
 If you encounter any more issues, please report them on GitHub!
 
