@@ -20,11 +20,14 @@ public class Inputs {
     public static InputAction RightContollerJump = null!;
     public static InputAction RightControllerSwitchStyle = null!;
     public static InputAction RightStickTurn = null!;
+    public static InputAction RightStickClickPause = null!;
     public static InputAction RightTriggerManual = null!;
     public static InputAction RightGripBoost = null!;
     public static InputAction LeftControllerTrickOne = null!;
     public static InputAction LeftControllerTrickTwo = null!;
     public static InputAction LeftControllerTrickThree = null!;
+    public static InputAction LeftTriggerInteract = null!;
+    public static InputAction LeftGripDance = null!;
 
     private static List<string> BufferedInputs = new();
     private static CustomController? Controller;
@@ -62,6 +65,8 @@ public class Inputs {
         RightStickTurn = new InputAction("RightStickTurn", InputActionType.Value,
                                          "<XRController>{RightHand}/primary2DAxis",
                                          expectedControlType: "Vector2");
+        RightStickClickPause = new InputAction("RightStickClickPause", InputActionType.Button,
+                                               "<XRController>{RightHand}/primary2DAxisClick");
         RightTriggerManual = new InputAction("RightTriggerManual", InputActionType.Button,
                                              "<XRController>{RightHand}/triggerButton");
         RightGripBoost = new InputAction("RightGripBoost", InputActionType.Button,
@@ -73,6 +78,10 @@ public class Inputs {
                                                  "<XRController>{LeftHand}/secondaryButton");
         LeftControllerTrickThree = new InputAction("LeftControllerTrickThree", InputActionType.Button,
                                                    "<XRController>{LeftHand}/{Primary2DAxisClick}");
+        LeftTriggerInteract = new InputAction("LeftTriggerInteract", InputActionType.Button,
+                                              "<XRController>{LeftHand}/triggerButton");
+        LeftGripDance = new InputAction("LeftGripDance", InputActionType.Button,
+                                        "<XRController>{LeftHand}/gripButton");
 
         HMDLook.Enable();
         HMDMove.Enable();
@@ -86,12 +95,15 @@ public class Inputs {
         RightContollerJump.Enable();
         RightControllerSwitchStyle.Enable();
         RightStickTurn.Enable();
+        RightStickClickPause.Enable();
         RightTriggerManual.Enable();
         RightGripBoost.Enable();
 
         LeftControllerTrickOne.Enable();
         LeftControllerTrickTwo.Enable();
         LeftControllerTrickThree.Enable();
+        LeftTriggerInteract.Enable();
+        LeftGripDance.Enable();
 
         Core.OnCoreInitialized += InitializeRewired;
     }
@@ -125,6 +137,15 @@ public class Inputs {
                                             ControllerElementType.Button, false),
             new ControllerElementIdentifier(ButtonIDs.TrickThree,
                                             "TrickThree", "", "",
+                                            ControllerElementType.Button, false),
+            new ControllerElementIdentifier(ButtonIDs.Pause,
+                                            "Pause", "", "",
+                                            ControllerElementType.Button, false),
+            new ControllerElementIdentifier(ButtonIDs.Interact,
+                                            "Interact", "", "",
+                                            ControllerElementType.Button, false),
+            new ControllerElementIdentifier(ButtonIDs.Dance,
+                                            "Dance", "", "",
                                             ControllerElementType.Button, false)
         ];
 
@@ -176,7 +197,10 @@ public class Inputs {
             new ActionElementMap(TRInputId.boost, ControllerElementType.Button, ButtonIDs.Boost),
             new ActionElementMap(TRInputId.trick1, ControllerElementType.Button, ButtonIDs.TrickOne),
             new ActionElementMap(TRInputId.trick2, ControllerElementType.Button, ButtonIDs.TrickTwo),
-            new ActionElementMap(TRInputId.trick3, ControllerElementType.Button, ButtonIDs.TrickThree)
+            new ActionElementMap(TRInputId.trick3, ControllerElementType.Button, ButtonIDs.TrickThree),
+            new ActionElementMap(TRInputId.pause, ControllerElementType.Button, ButtonIDs.Pause),
+            new ActionElementMap(TRInputId.spray, ControllerElementType.Button, ButtonIDs.Interact),
+            new ActionElementMap(TRInputId.dance, ControllerElementType.Button, ButtonIDs.Dance),
         ]);
         UiMap = BuildMap("UI", 1, [
             new ActionElementMap(TRInputId.menuX, ControllerElementType.Axis, ButtonIDs.MoveX,
@@ -184,7 +208,7 @@ public class Inputs {
             new ActionElementMap(TRInputId.menuY, ControllerElementType.Axis, ButtonIDs.MoveY,
                                  Pole.Positive, AxisRange.Full),
             new ActionElementMap(TRInputId.menuConfirm, ControllerElementType.Button, ButtonIDs.Jump),
-            new ActionElementMap(TRInputId.menuCancel, ControllerElementType.Button, ButtonIDs.SwitchStyle),
+            new ActionElementMap(TRInputId.menuCancel, ControllerElementType.Button, ButtonIDs.SwitchStyle)
         ]);
 
         ReInput.InputSourceUpdateEvent += UpdateRewiredInput;
@@ -198,10 +222,15 @@ public class Inputs {
         Controller.SetButtonValueById(ButtonIDs.TrickOne, FetchBuffer(LeftControllerTrickOne));
         Controller.SetButtonValueById(ButtonIDs.TrickTwo, FetchBuffer(LeftControllerTrickTwo));
         Controller.SetButtonValueById(ButtonIDs.TrickThree, FetchBuffer(LeftControllerTrickThree));
+        Controller.SetButtonValueById(ButtonIDs.Interact, FetchBuffer(LeftTriggerInteract));
+        Controller.SetButtonValueById(ButtonIDs.Dance, FetchBuffer(LeftGripDance));
 
         var move = LeftStickMove.ReadValue<Vector2>();
         Controller.SetAxisValueById(ButtonIDs.MoveX, move.x);
         Controller.SetAxisValueById(ButtonIDs.MoveY, move.y);
+
+        // Push down on right stick to open menu
+        Controller.SetButtonValueById(ButtonIDs.Pause, RightStickClickPause.triggered);
     }
 
     private static CustomControllerMap BuildMap(string name, int category, ActionElementMap[] maps) {
@@ -263,14 +292,6 @@ public class Inputs {
 
                     if (!map.enabled) map.enabled = true;
                 }
-
-                /*if (player.controllers.maps.GetMap(ControllerType.Custom, Controller.id, GameplayMap.categoryId,
-                                                   GameplayMap.layoutId) ==
-                    null) {
-                    player.controllers.maps.AddMap(Controller, GameplayMap);
-                }
-                if (!GameplayMap.enabled) GameplayMap.enabled = true;
-                */
             }
         }
     }
@@ -294,5 +315,8 @@ public class Inputs {
         public const int TrickOne = 6;
         public const int TrickTwo = 7;
         public const int TrickThree = 8;
+        public const int Pause = 13;
+        public const int Interact = 14;
+        public const int Dance = 15;
     }
 }
