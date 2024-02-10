@@ -2,10 +2,9 @@
 
 Bomb Rush Cyberfunk proof of concept VR mod.
 
-> [!WARNING]
-> This mod is a proof of concept with lots of bugs. It will be laggy, behave strangely, and will break things. It is not finished, and by using it, you accept there will be weird oddities.
+**WARNING!** This mod is a proof of concept with lots of bugs. It will be laggy, behave strangely, and will break things. It is not finished, and by using it, you accept there will be weird oddities.
 
-It is suggested to use this mod on a post-game save file (you backed it up, right?).
+**It is suggested to use this mod on a post-game save file** (you backed it up, right?).
 
 ## Known bugs
 
@@ -39,6 +38,10 @@ If you encounter any more issues, please report them on GitHub!
 - The HUD
 - Slop Crew integration
 - Flatscreen UI in menus
+
+## Slop Crew integration
+
+To see VR players' hands from non-VR, install this mod and set VrEnabled to false in the config file. The game needs to be launched at least once to generate the config file, so it is suggested to close it as soon as the file is generated to prevent any issues.
 
 ## Credits
 
