@@ -20,6 +20,7 @@ public class PlayerPatch {
         if (!Plugin.CyberheadConfig.General.VrEnabled.Value) return;
         if (__instance.isAI) return;
         Utils.CreateRig(__instance.transform.position, __instance.transform.rotation, __instance);
+        Utils.DeleteCharacterHead(__instance);
     }
 
     [HarmonyPostfix]
@@ -27,7 +28,10 @@ public class PlayerPatch {
     public static void SetCharacter(Player __instance, Characters setChar, int setOutfit = 0) {
         if (!Plugin.CyberheadConfig.General.VrEnabled.Value) return;
         Utils.ApplyIk(__instance.characterVisual);
-        if (!__instance.isAI) Utils.AlignHead(__instance.transform.position, __instance.headTf.position);
+        if (!__instance.isAI) {
+            Utils.AlignHead(__instance.transform.position, __instance.headTf.position);
+            Utils.DeleteCharacterHead(__instance);
+        }
     }
 
     [HarmonyPostfix]

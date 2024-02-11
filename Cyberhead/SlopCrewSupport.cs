@@ -93,7 +93,9 @@ public class SlopCrewSupport : IDisposable {
             ikR.gameObject.AddComponent<SlopCrewSynced>();
         }
 
-        playerController.characterVisual.anim.gameObject.AddComponent<InverseKinematicsRelay>();
+        if (playerController.characterVisual.anim.gameObject.GetComponent<InverseKinematicsRelay>() == null) {
+            playerController.characterVisual.anim.gameObject.AddComponent<InverseKinematicsRelay>();
+        }
         playerController.characterVisual.handIKActiveL = true;
         playerController.characterVisual.handIKActiveR = true;
         playerController.characterVisual.handIKTargetL = ikL;

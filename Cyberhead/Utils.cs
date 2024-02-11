@@ -25,8 +25,7 @@ public class Utils {
         cameraOffset.transform.SetParent(Plugin.XRRig.transform, false);
         origin.CameraFloorOffsetObject = cameraOffset;
         AlignHead(position, player != null ? player.headTf.position : position);
-        // This should really be done in a custom component
-        if (player != null) player.headTf.localScale = Vector3.zero;
+        if (player != null) DeleteCharacterHead(player);
 
         // We'll move the GameplayCamera to this later
         var newCamera = new GameObject("XR Camera");
@@ -80,6 +79,10 @@ public class Utils {
 
         // TODO
         Core.Instance.UIManager.gameplay.transform.parent.gameObject.AddComponent<XRHud>();
+    }
+
+    public static void DeleteCharacterHead(Player player) {
+        player.headTf.localScale = Vector3.zero;
     }
 
     public static void AlignHead(Vector3 position, Vector3 headPosition) {
