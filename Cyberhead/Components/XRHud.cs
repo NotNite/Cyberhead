@@ -18,7 +18,9 @@ public class XRHud : MonoBehaviour {
     private void Update() {
         if (Plugin.XRRig == null) return;
         var cameraTf = Plugin.XRRig.transform.Find("CameraOffset/XR Camera");
+        if (cameraTf == null) return;
         var camera = cameraTf.GetComponent<XRCamera>();
+        if (camera == null) return;
         var hudBone = Plugin.XRRig.transform.Find("CameraOffset/XR Camera/XR HUD");
         if (hudBone == null) return;
 
